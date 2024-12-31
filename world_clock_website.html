@@ -1,0 +1,115 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>World Clock</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+            text-align: center;
+        }
+        header {
+            background-color: #007BFF;
+            color: white;
+            padding: 1rem;
+        }
+        h1 {
+            margin: 0;
+        }
+        .container {
+            padding: 2rem;
+        }
+        .clock {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .clock-item {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin: 1rem;
+            padding: 1rem;
+            width: 200px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .clock-item h2 {
+            margin: 0 0 1rem;
+        }
+        .footer {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>World Clock</h1>
+        <p>Real-time clocks for every country</p>
+    </header>
+
+    <div class="container">
+        <div class="clock" id="clockContainer">
+            <!-- Clocks will be dynamically added here -->
+        </div>
+    </div>
+
+    <div class="footer" id="footer">Website by Hamed Khawari</div>
+
+    <script>
+        const countries = [
+            { name: "Germany", timezone: "Europe/Berlin" },
+            { name: "USA (New York)", timezone: "America/New_York" },
+            { name: "India", timezone: "Asia/Kolkata" },
+            { name: "Australia", timezone: "Australia/Sydney" },
+            { name: "Japan", timezone: "Asia/Tokyo" }
+        ];
+
+        function updateClocks() {
+            const container = document.getElementById('clockContainer');
+            container.innerHTML = '';
+
+            countries.forEach(country => {
+                const date = new Date().toLocaleString("en-US", { timeZone: country.timezone });
+                const clockItem = document.createElement('div');
+                clockItem.className = 'clock-item';
+
+                clockItem.innerHTML = `
+                    <h2>${country.name}</h2>
+                    <p>${date}</p>
+                `;
+                container.appendChild(clockItem);
+            });
+        }
+
+        function translateFooter() {
+            const userLang = navigator.language || navigator.userLanguage;
+            const footer = document.getElementById('footer');
+            const translations = {
+                "de": "Website von Hamed Khawari",
+                "fr": "Site web de Hamed Khawari",
+                "es": "Sitio web de Hamed Khawari",
+                "ar": "موقع حامد خواري",
+                "default": "Website by Hamed Khawari"
+            };
+            footer.textContent = translations[userLang.split('-')[0]] || translations["default"];
+        }
+
+        setInterval(updateClocks, 1000);
+        updateClocks();
+        translateFooter();
+    </script>
+</body>
+</html>
